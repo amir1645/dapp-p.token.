@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PToken DApp - شبکه هوشمند</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- هدر -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>PToken</h1>
+                        <span>شبکه هوشمند</span>
+                    </div>
+                </div>
+                <div class="network-info">
+                    <div class="network-status">
+                        <span class="status-dot"></span>
+                        <span>Polygon Mainnet</span>
+                    </div>
+                    <div class="account-info" id="account-info">
+                        <span>اتصال کیف پول</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- محتوای اصلی -->
+        <main class="main-content">
+            <!-- تب کیف پول -->
+            <section id="wallet-tab" class="tab-content active">
+                <div class="tab-header">
+                    <h2><i class="fas fa-wallet"></i> کیف پول و اتصال</h2>
+                    <p>اتصال به کیف پول و مشاهده موجودی</p>
+                </div>
+                
+                <div class="wallet-container">
+                    <!-- کارت اتصال کیف پول -->
+                    <div class="connection-card" id="connection-card">
+                        <div class="card-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <h3>اتصال به کیف پول</h3>
+                        <p>برای استفاده از امکانات DApp، کیف پول خود را انتخاب کنید</p>
+                        
+                        <!-- دکمه اتصال ساده -->
+                        <button id="connect-wallet-simple" class="btn-primary">
+                            <i class="fas fa-wallet"></i>
+                            اتصال کیف پول
+                        </button>
+                        
+                        <!-- یا انتخاب از بین کیف پول‌ها -->
+                        <div class="wallet-options" id="wallet-options" style="display: none; margin-top: 15px;">
+                            <div class="options-title">انتخاب کیف پول:</div>
+                            <div class="wallet-buttons">
+                                <button class="wallet-btn" data-wallet="injected">
+                                    <i class="fas fa-plug"></i>
+                                    کیف پول مرورگر
+                                </button>
+                                <button class="wallet-btn" data-wallet="walletconnect">
+                                    <i class="fas fa-qrcode"></i>
+                                    WalletConnect
+                                </button>
+                                <button class="wallet-btn" data-wallet="coinbase">
+                                    <i class="fas fa-wallet"></i>
+                                    Coinbase Wallet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- اطلاعات کیف پول متصل -->
+                    <div class="wallet-info" id="wallet-info" style="display: none;">
+                        <div class="info-card">
+                            <div class="card-header">
+                                <h4>اطلاعات حساب</h4>
+                                <span class="status-badge connected">متصل</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-item">
+                                    <span>آدرس کیف پول:</span>
+                                    <span id="wallet-address" class="address">-</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>موجودی MATIC:</span>
+                                    <span id="matic-balance" class="balance">0 MATIC</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>شناسه کاربری:</span>
+                                    <span id="user-id" class="value">-</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>شبکه:</span>
+                                    <span id="network-name" class="value">-</span>
+                                </div>
+                            </div>
+                            <button id="disconnect-wallet" class="btn-secondary">
+                                <i class="fas fa-power-off"></i>
+                                قطع اتصال
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- وضعیت اتصال -->
+                    <div class="connection-status" id="connection-status" style="display: none;">
+                        <div class="status-card">
+                            <div class="status-icon">
+                                <i class="fas fa-sync fa-spin"></i>
+                            </div>
+                            <h4>در حال اتصال...</h4>
+                            <p>لطفاً در کیف پول خود تأیید کنید</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- راهنمای اتصال -->
+                <div class="help-section">
+                    <div class="help-card">
+                        <h4><i class="fas fa-question-circle"></i> راهنمای اتصال</h4>
+                        <div class="help-steps">
+                            <div class="step">
+                                <span class="step-number">1</span>
+                                <p>روی دکمه "اتصال کیف پول" کلیک کنید</p>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">2</span>
+                                <p>کیف پول خود را از لیست انتخاب کنید</p>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">3</span>
+                                <p>درخواست اتصال را در کیف پول تأیید کنید</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- سایر تب‌ها (پروفایل، شجره‌نامه، ماینر، برداشت) -->
+            <!-- محتوای سایر تب‌ها مانند قبل باقی می‌ماند -->
+        </main>
+
+        <!-- ناوبری پایین -->
+        <nav class="bottom-nav">
+            <!-- محتوای ناوبری مانند قبل -->
+        </nav>
+    </div>
+
+    <!-- پیام‌ها -->
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    <script src="app.js"></script>
+</body>
+</html>
