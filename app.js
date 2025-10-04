@@ -5,7 +5,7 @@ const CONFIG = {
 };
 
 // ABI قرارداد
-const CONTRACT_ABI = [0x166Dd205590240C90Ca4E0E545AD69db47D8f22f
+const CONTRACT_ABI = [
     {
         "inputs": [
             {"internalType": "uint256", "name": "uplineCode", "type": "uint256"},
@@ -740,4 +740,5 @@ if (typeof window.ethereum === 'undefined') {
 document.addEventListener('DOMContentLoaded', function() {
     // شروع تایمر
     setInterval(updateCountdown, 1000);
+
 });
