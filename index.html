@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PToken DApp - Polygon Network</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Header -->
+        <header class="mobile-header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1 data-i18n="app.title">PToken</h1>
+                        <span class="logo-subtitle" data-i18n="app.subtitle">Polygon Network</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="network-status">
+                        <div class="status-indicator">
+                            <div class="pulse-dot"></div>
+                            <span data-i18n="status.online">Online</span>
+                        </div>
+                    </div>
+                    <div class="language-switcher">
+                        <select id="language-select" onchange="changeLanguage(this.value)">
+                            <option value="fa">فارسی</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="mobile-main">
+            <!-- Wallet Tab -->
+            <div id="wallet-tab" class="tab-content active">
+                <div class="mobile-section">
+                    <div class="hero-section">
+                        <div class="hero-icon">
+                            <div class="floating-wallet">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="floating-coin coin-1">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="floating-coin coin-2">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <div class="floating-coin coin-3">
+                                <i class="fas fa-diamond"></i>
+                            </div>
+                        </div>
+                        <h2 class="hero-title" data-i18n="wallet.welcome">Welcome</h2>
+                        <p class="hero-subtitle" data-i18n="wallet.connectToStart">Connect your wallet to start</p>
+                    </div>
+
+                    <div class="action-card">
+                        <button id="connect-btn" onclick="connectWallet()" class="btn-connect animated-btn">
+                            <span class="btn-glow"></span>
+                            <i class="fas fa-plug"></i>
+                            <span data-i18n="wallet.connect">Connect Wallet</span>
+                        </button>
+
+                        <button id="disconnect-btn" onclick="disconnectWallet()" class="btn-disconnect" style="display: none;">
+                            <i class="fas fa-power-off"></i>
+                            <span data-i18n="wallet.disconnect">Disconnect</span>
+                        </button>
+                    </div>
+
+                    <div id="account" class="account-display" style="display: none;">
+                        <div class="account-card">
+                            <div class="account-header">
+                                <i class="fas fa-check-circle"></i>
+                                <span data-i18n="wallet.connected">Connected Successfully</span>
+                            </div>
+                            <div class="account-address"></div>
+                            <div class="account-balance">
+                                <span class="balance-label" data-i18n="wallet.balance">Balance:</span>
+                                <span class="balance-value wallet-balance">0 <span data-i18n="unit.polygon">Polygon</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Profile Tab -->
+            <div id="user-tab" class="tab-content">
+                <div class="mobile-section">
+                    <div class="section-header">
+                        <h2 data-i18n="user.profile">User Profile</h2>
+                        <div class="user-badge">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+
+                    <!-- Unregistered View -->
+                    <div id="unregistered-view" class="registration-card">
+                        <div class="card-header">
+                            <h3 data-i18n="user.newRegistration">New Registration</h3>
+                            <div class="price-tag">350 <span data-i18n="unit.polygon">Polygon</span></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="input-label">
+                                <i class="fas fa-user-friends"></i>
+                                <span data-i18n="user.uplineId">Upline User ID</span>
+                            </label>
+                            <input id="upline-address" type="number" placeholder="Example: 1234" class="modern-input" min="1">
+                            <div class="input-hint" data-i18n="user.uplineHint">Numeric ID of the user who invited you</div>
+                        </div>
+
+                        <div class="position-selector">
+                            <div class="selector-title" data-i18n="user.position">Network Position</div>
+                            <div class="position-options">
+                                <label class="position-card">
+                                    <input type="radio" name="place" value="left" checked>
+                                    <div class="card-content">
+                                        <div class="position-icon left">
+                                            <i class="fas fa-arrow-left"></i>
+                                        </div>
+                                        <span data-i18n="user.left">Left Side</span>
+                                        <div class="position-description" data-i18n="user.leftDesc">Placement in left branch</div>
+                                    </div>
+                                </label>
+                                <label class="position-card">
+                                    <input type="radio" name="place" value="right">
+                                    <div class="card-content">
+                                        <div class="position-icon right">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </div>
+                                        <span data-i18n="user.right">Right Side</span>
+                                        <div class="position-description" data-i18n="user.rightDesc">Placement in right branch</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="registration-info">
+                            <div class="info-item">
+                                <i class="fas fa-info-circle"></i>
+                                <span data-i18n="user.registrationNote">Registration fee: 350 Polygon</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span data-i18n="user.securityNote">All transactions are secure and on blockchain</span>
+                            </div>
+                        </div>
+
+                        <button onclick="register()" class="btn-register">
+                            <i class="fas fa-user-plus"></i>
+                            <span data-i18n="user.completeRegistration">Complete Registration</span>
+                        </button>
+                    </div>
+
+                    <!-- Registered View -->
+                    <div id="registered-view" class="user-info-card" style="display: none;">
+                        <div class="user-id-display">
+                            <div class="user-id-label" data-i18n="user.yourId">Your User ID:</div>
+                            <div class="user-id-value" id="user-id">-</div>
+                        </div>
+                        
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-user-tag"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label" data-i18n="user.uplineId">Upline ID</div>
+                                    <div class="info-value" id="user-upline">-</div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label" data-i18n="user.entryPrice">Entry Price</div>
+                                    <div class="info-value" id="entry-price">0 <span data-i18n="unit.polygon">Polygon</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Team Stats -->
+                        <div class="stats-section">
+                            <h4 class="section-title">
+                                <i class="fas fa-users"></i>
+                                <span data-i18n="user.teamStats">Your Team Stats</span>
+                            </h4>
+                            
+                            <div class="team-stats-grid">
+                                <div class="team-stat-card left-team">
+                                    <div class="team-icon">
+                                        <i class="fas fa-arrow-left"></i>
+                                    </div>
+                                    <div class="team-info">
+                                        <div class="team-label" data-i18n="user.leftTeam">Left Team</div>
+                                        <div class="team-count" id="team-stats-left">0</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="team-stat-card right-team">
+                                    <div class="team-icon">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </div>
+                                    <div class="team-info">
+                                        <div class="team-label" data-i18n="user.rightTeam">Right Team</div>
+                                        <div class="team-count" id="team-stats-right">0</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="team-stat-card total-team">
+                                    <div class="team-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="team-info">
+                                        <div class="team-label" data-i18n="user.totalTeam">Total Team</div>
+                                        <div class="team-count" id="team-stats-total">0</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Token P Tab -->
+            <div id="token-p-tab" class="tab-content">
+                <div class="mobile-section">
+                    <div class="section-header">
+                        <h2 data-i18n="token.title">Token P</h2>
+                        <div class="user-badge">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                    </div>
+
+                    <!-- Token Price Display -->
+                    <div class="token-price-section">
+                        <div class="token-price-card">
+                            <div class="price-icon">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                            <div class="price-info">
+                                <div class="price-label" data-i18n="token.currentPrice">Current P Token Price</div>
+                                <div class="price-amount" id="p-token-price">0</div>
+                                <div class="price-currency" data-i18n="unit.polygon">Polygon</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Token and Polygon Balance Display -->
+                    <div class="balance-cards-grid">
+                        <div class="balance-card token">
+                            <div class="balance-icon">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <div class="balance-info">
+                                <div class="balance-label" data-i18n="token.pTokenBalance">P Token Balance</div>
+                                <div class="balance-amount" id="p-token-balance">0</div>
+                                <div class="balance-value" id="p-token-value">≈ 0 <span data-i18n="unit.polygon">Polygon</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="balance-card polygon">
+                            <div class="balance-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="balance-info">
+                                <div class="balance-label" data-i18n="token.polygonBalance">Polygon Balance</div>
+                                <div class="balance-amount wallet-balance">0</div>
+                                <div class="balance-value" data-i18n="token.inWallet">In Wallet</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Token Actions -->
+                    <div class="token-actions">
+                        <!-- Buy P Token Section -->
+                        <div class="token-action-card">
+                            <div class="action-header">
+                                <h4 data-i18n="token.buyTitle">Buy P Token</h4>
+                                <div class="action-balance">
+                                    <i class="fas fa-coins"></i>
+                                    <span class="wallet-balance">0 <span data-i18n="unit.polygon">Polygon</span></span>
+                                </div>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label class="input-label">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <span data-i18n="token.amountToBuy">Amount of Polygon to Buy</span>
+                                </label>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="number" id="buy-amount" class="modern-input" placeholder="0.00" step="0.001" min="0.001" style="flex: 1;">
+                                    <button onclick="fillMaxBuy()" class="max-btn" type="button">
+                                        <span data-i18n="token.max">MAX</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="calculation-result">
+                                <div class="result-item">
+                                    <span data-i18n="token.youWillReceive">You will receive:</span>
+                                    <strong id="tokens-received">0 <span data-i18n="unit.token">P Token</span></strong>
+                                </div>
+                                <div class="result-item">
+                                    <span data-i18n="token.transactionFee">Transaction fee:</span>
+                                    <strong>~0.002 <span data-i18n="unit.polygon">Polygon</span></strong>
+                                </div>
+                            </div>
+                            
+                            <button onclick="buyPTokens()" class="btn-token-action primary">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span data-i18n="token.buyButton">Buy P Token</span>
+                            </button>
+                        </div>
+
+                        <!-- Sell P Token Section -->
+                        <div class="token-action-card">
+                            <div class="action-header">
+                                <h4 data-i18n="token.sellTitle">Sell P Token</h4>
+                                <div class="action-balance">
+                                    <i class="fas fa-gem"></i>
+                                    <span id="available-tokens-sell">0 <span data-i18n="unit.token">P Token</span></span>
+                                </div>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label class="input-label">
+                                    <i class="fas fa-gem"></i>
+                                    <span data-i18n="token.amountToSell">Amount of P Token to Sell</span>
+                                </label>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="number" id="sell-amount" class="modern-input" placeholder="0.00" step="0.01" min="0.01" style="flex: 1;">
+                                    <button onclick="fillMaxSell()" class="max-btn" type="button">
+                                        <span data-i18n="token.max">MAX</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="calculation-result">
+                                <div class="result-item">
+                                    <span data-i18n="token.youWillReceive">You will receive:</span>
+                                    <strong id="matic-received">0 <span data-i18n="unit.polygon">Polygon</span></strong>
+                                </div>
+                                <div class="result-item">
+                                    <span data-i18n="token.transactionFee">Transaction fee:</span>
+                                    <strong>~0.002 <span data-i18n="unit.polygon">Polygon</span></strong>
+                                </div>
+                            </div>
+                            
+                            <button onclick="sellPTokens()" class="btn-token-action secondary">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span data-i18n="token.sellButton">Sell P Token</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Miner Tab -->
+            <div id="miner-tab" class="tab-content">
+                <div class="mobile-section">
+                    <div class="miner-header">
+                        <h2 data-i18n="miner.title">Miner System</h2>
+                        <div class="miner-global-status" id="miner-global-status">
+                            <div class="status-indicator"></div>
+                            <span data-i18n="miner.checkingStatus">Loading...</span>
+                        </div>
+                    </div>
+
+                    <div class="miner-container">
+                        <!-- Miner Status Card -->
+                        <div class="miner-status-card">
+                            <div class="miner-icon">
+                                <i class="fas fa-hard-hat"></i>
+                            </div>
+                            <div class="miner-status-label" data-i18n="miner.yourStatus">Your Miner Status</div>
+                            <div class="miner-status-value" id="miner-status" data-i18n="status.loading">Loading...</div>
+                            <div class="miner-detailed-status" id="miner-detailed-status" data-i18n="status.fetchingInfo">Fetching information...</div>
+                        </div>
+
+                        <!-- Detailed Miner Stats -->
+                        <div class="miner-stats">
+                            <div class="miner-stat-card">
+                                <div class="miner-stat-icon">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                                <div class="miner-stat-label" data-i18n="miner.totalRewards">Total Miner Rewards</div>
+                                <div class="miner-stat-value" id="miner-total-rewards">0 <span data-i18n="unit.polygon">Polygon</span></div>
+                            </div>
+
+                            <div class="miner-stat-card">
+                                <div class="miner-stat-icon">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div class="miner-stat-label" data-i18n="miner.tokensAvailable">Tokens Available</div>
+                                <div class="miner-stat-value" id="miner-tokens-available">0 <span data-i18n="unit.token">P Token</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Miner Buy Timer -->
+                        <div class="miner-timer-section">
+                            <h4 class="section-title">
+                                <i class="fas fa-clock"></i>
+                                <span data-i18n="miner.nextBuyTimer">Time until next buy</span>
+                            </h4>
+                            <div class="timer-container">
+                                <div class="timer-display" id="miner-buy-timer">--:--:--</div>
+                                <div class="timer-note" data-i18n="miner.buyNote">Available every 24 hours</div>
+                            </div>
+                        </div>
+
+                        <!-- Miner Actions -->
+                        <div class="miner-actions">
+                            <!-- Buy Miner Tokens -->
+                            <div class="miner-action-card">
+                                <div class="action-header">
+                                    <div class="action-title" data-i18n="miner.buyTokens">Buy Miner Tokens</div>
+                                </div>
+                                <div class="action-description">
+                                    <strong data-i18n="miner.buyFromPool">Buy from miner pool:</strong>
+                                    <span data-i18n="miner.buyDescription">Using miner pool balance</span>
+                                </div>
+                                <button onclick="buyMinerTokens()" class="btn-miner-action" id="buy-miner-btn" disabled>
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span data-i18n="miner.buyButton">Buy Miner Tokens</span>
+                                </button>
+                            </div>
+
+                            <!-- Distribute Miner Tokens -->
+                            <div class="miner-action-card">
+                                <div class="action-header">
+                                    <div class="action-title" data-i18n="miner.distributeTokens">Distribute Miner Tokens</div>
+                                    <div class="action-balance">
+                                        <i class="fas fa-gem"></i>
+                                        <span id="miner-pool-balance">0 <span data-i18n="unit.token">P Token</span></span>
+                                    </div>
+                                </div>
+                                <div class="action-description">
+                                    <strong data-i18n="miner.distributionExplanation">Miner tokens distribution occurs on the 5th day of each Gregorian month</strong><br>
+                                    <span data-i18n="miner.distributionNote">Automatic distribution will occur on the specified date</span>
+                                </div>
+                                <button onclick="distributeMinerTokens()" class="btn-miner-action secondary" id="distribute-miner-btn">
+                                    <i class="fas fa-share-alt"></i>
+                                    <span data-i18n="miner.distributeButton">Distribute Miner Tokens</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Token Distribution Info -->
+                        <div class="token-distribution-info">
+                            <h4 class="section-title">
+                                <i class="fas fa-info-circle"></i>
+                                <span data-i18n="miner.distributionInfo">Distribution Information</span>
+                            </h4>
+                            
+                            <div class="distribution-stats">
+                                <div class="distribution-stat">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <div class="stat-label" data-i18n="miner.poolBalance">Pool Balance</div>
+                                        <div class="stat-value" id="miner-pool-total">0 <span data-i18n="unit.token">P Token</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="distribution-status" id="miner-distribution-status">
+                                <i class="fas fa-sync-alt"></i>
+                                <span data-i18n="miner.checkingDistribution">Checking distribution status...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Withdraw Tab -->
+            <div id="withdraw-tab" class="tab-content">
+                <div class="mobile-section">
+                    <div class="section-header">
+                        <h2 data-i18n="withdraw.title">Withdraw from Pools</h2>
+                        <div class="user-badge">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                    </div>
+
+                    <div class="withdraw-container">
+                        <!-- Countdown Timer -->
+                        <div class="timer-container">
+                            <div class="timer-label" data-i18n="withdraw.nextWithdrawTimer">Time until next withdraw</div>
+                            <div class="timer-display" id="countdown-timer">--:--:--</div>
+                            <div class="countdown-note" data-i18n="withdraw.withdrawNote">Available every 6 hours</div>
+                        </div>
+
+                        <!-- Withdraw Cards -->
+                        <div class="withdraw-cards">
+                            <!-- Development Reward Pool -->
+                            <div class="withdraw-card">
+                                <div class="withdraw-card-header">
+                                    <div class="withdraw-card-icon">
+                                        <i class="fas fa-wallet"></i>
+                                    </div>
+                                    <div class="withdraw-card-title" data-i18n="withdraw.developmentPool">Development Reward Pool</div>
+                                </div>
+                                
+                                <div class="pool-stats">
+                                    <div class="pool-stat">
+                                        <div class="pool-stat-icon">
+                                            <i class="fas fa-coins"></i>
+                                        </div>
+                                        <div class="pool-stat-label" data-i18n="withdraw.polygonAvailable">Polygon Available</div>
+                                        <div class="pool-stat-value" id="pool-balance">0</div>
+                                    </div>
+                                    
+                                    <div class="pool-stat">
+                                        <div class="pool-stat-icon">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                        <div class="pool-stat-label" data-i18n="withdraw.totalRegistrations">Total Registrations</div>
+                                        <div class="pool-stat-value" id="pool-registrations">0</div>
+                                    </div>
+
+                                    <div class="pool-stat">
+                                        <div class="pool-stat-icon">
+                                            <i class="fas fa-balance-scale"></i>
+                                        </div>
+                                        <div class="pool-stat-label" data-i18n="withdraw.yourBalances">Your Balances</div>
+                                        <div class="pool-stat-value" id="pool-balance-count">0</div>
+                                    </div>
+                                </div>
+
+                                <div class="withdraw-card-content">
+                                    <div class="amount-display">
+                                        <span class="amount" id="pool-amount">0</span>
+                                        <span class="currency" data-i18n="unit.polygon">Polygon</span>
+                                    </div>
+                                    <button onclick="withdrawPool()" class="btn-withdraw" id="pool-withdraw-btn">
+                                        <i class="fas fa-download"></i>
+                                        <span data-i18n="withdraw.withdrawDevelopment">Withdraw Development Reward</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Special Reward Pool -->
+                            <div class="withdraw-card">
+                                <div class="withdraw-card-header">
+                                    <div class="withdraw-card-icon">
+                                        <i class="fas fa-crown"></i>
+                                    </div>
+                                    <div class="withdraw-card-title" data-i18n="withdraw.specialPool">Special Reward Pool</div>
+                                </div>
+                                
+                                <div class="pool-stats">
+                                    <div class="pool-stat">
+                                        <div class="pool-stat-icon">
+                                            <i class="fas fa-coins"></i>
+                                        </div>
+                                        <div class="pool-stat-label" data-i18n="withdraw.polygonAvailable">Polygon Available</div>
+                                        <div class="pool-stat-value" id="special-pool-balance">0</div>
+                                    </div>
+                                    
+                                    <div class="pool-stat">
+                                        <div class="pool-stat-icon">
+                                            <i class="fas fa-trophy"></i>
+                                        </div>
+                                        <div class="pool-stat-label" data-i18n="withdraw.totalBalances">Total Balances</div>
+                                        <div class="pool-stat-value" id="special-pool-count">0</div>
+                                    </div>
+
+                                    <div class="pool-stat">
+                                        <div class="pool-stat-icon">
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="pool-stat-label" data-i18n="withdraw.yourSpecialBalances">Your Special Balances</div>
+                                        <div class="pool-stat-value" id="user-special-balance">0</div>
+                                    </div>
+                                </div>
+
+                                <div class="withdraw-card-content">
+                                    <div class="amount-display">
+                                        <span class="amount" id="special-amount">0</span>
+                                        <span class="currency" data-i18n="unit.polygon">Polygon</span>
+                                    </div>
+                                    <button onclick="withdrawSpecials()" class="btn-withdraw special" id="special-withdraw-btn">
+                                        <i class="fas fa-download"></i>
+                                        <span data-i18n="withdraw.withdrawSpecial">Withdraw Special</span>
+                                    </button>
+                                </div>
+                                
+                                <!-- Special Pool Status -->
+                                <div class="distribution-status" id="special-pool-status" style="margin-top: 15px; display: none;">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span data-i18n="withdraw.checkingStatus">Checking pool status...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('wallet')">
+                <div class="nav-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <span class="nav-label" data-i18n="nav.wallet">Wallet</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('user')">
+                <div class="nav-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span class="nav-label" data-i18n="nav.profile">Profile</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('token-p')">
+                <div class="nav-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <span class="nav-label" data-i18n="nav.tokenP">Token P</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('miner')">
+                <div class="nav-icon">
+                    <i class="fas fa-hard-hat"></i>
+                </div>
+                <span class="nav-label" data-i18n="nav.miner">Miner</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('withdraw')">
+                <div class="nav-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <span class="nav-label" data-i18n="nav.withdraw">Withdraw</span>
+            </div>
+        </nav>
+    </div>
+
+    <div id="message" class="message-toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
